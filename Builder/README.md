@@ -54,4 +54,4 @@ El Builder soluciona estos problemas al:
 
 ## Challenge
 
-Para poner en pr�ctica el patr�n Observer, consulta el [README del challenge](./challenge/) que contiene un ejercicio pr�ctico.
+Para poner en practica el patron Observer, consulta el [README del challenge](./challenge/) que contiene un ejercicio practico.
