@@ -88,3 +88,16 @@ public class Main {
         System.out.println("Refactoriza este código usando el patrón Builder.");
     }
 }
+
+
+## Tips
+Elimina los constructores telescópicos
+Varias combinaciones de parámetros implican múltiples constructores.
+El patrón Builder te permite manejar combinaciones sin explotar el número de constructores.
+Mueve la construcción fuera del constructor
+Report debe ocultarse detrás de un constructor privado o protegido.
+El Builder debe encargarse de poblar cada campo opcional.
+Aplica el Principio Abierto/Cerrado
+No deberías modificar Report cuando te pidan agregar una nueva sección opcional.
+Solo extiende el Builder con un nuevo paso.
+El objeto Report simplemente recibe aquello que el Builder construye.
