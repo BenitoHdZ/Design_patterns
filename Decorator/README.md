@@ -1,34 +1,23 @@
-# Kata: Observer
+# Patr贸n Decorator
 
-## Contexto
-Est醩 trabajando en un sistema de estaci髇 meteorol骻ica que debe mostrar la temperatura en m鷏tiples dispositivos (tel閒ono, web, TV). Actualmente, la estaci髇 meteorol骻ica conoce expl韈itamente cada display y debe actualizarlos manualmente cuando cambia la temperatura. Si necesitas agregar un nuevo tipo de display (como una tablet), debes modificar la clase `WeatherStation`, violando el principio abierto/cerrado y creando un alto acoplamiento.
+## Contexto del problema
+Tienes una aplicaci贸n que genera reportes (PDF, CSV, HTML). El c贸digo se repite al agregar nuevas funcionalidades (ej. compresi贸n, cifrado).  
+Necesitamos una forma flexible de extender el comportamiento de objetos sin modificar su c贸digo base.
 
-## El Patr髇: Observer
+## Explicaci贸n del patr贸n
+El patr贸n **Decorator** permite a帽adir responsabilidades a los objetos din谩micamente envolvi茅ndolos dentro de otros objetos.  
+Cada decorador implementa la misma interfaz que el objeto que decora, delegando y extendiendo su comportamiento.
 
-El patr髇 Observer permite que **cuando un objeto cambia su estado, todos los objetos interesados reciban una notificaci髇 autom醫ica** sin que el primero tenga que conocerlos directamente. Esto reduce el acoplamiento porque eliminas las dependencias directas entre quien notifica y quien escucha, haciendo que ambos dependan de abstracciones en lugar de clases concretas (principio de inversi髇 de dependencias).
+## Cu谩ndo usar este patr贸n
+- Cuando necesites agregar funcionalidades din谩micamente.
+- Cuando no quieras usar herencia para extender comportamiento.
+- Cuando desees combinar comportamientos en tiempo de ejecuci贸n.
 
-El Observer resuelve el problema de dependencias directas al:
-- Definir una relaci髇 uno-a-muchos entre objetos, donde el cambio en uno notifica autom醫icamente a todos sus dependientes
-- Permitir que los observadores se registren y desregistren din醡icamente
-- Hacer que tanto el sujeto como los observadores dependan de abstracciones (interfaces)
+## Beneficios y principios SOLID aplicados
+- **Open/Closed Principle:** puedes extender funcionalidad sin modificar c贸digo existente.
+- **Single Responsibility Principle:** cada decorador maneja una 煤nica funcionalidad adicional.
+- Alta **flexibilidad** en la composici贸n de objetos.
 
-Beneficios principales:
-- **Principio abierto/cerrado**: Puedes agregar nuevos observadores sin modificar el sujeto
-- **Principio de inversi髇 de dependencias**: Tanto el sujeto como los observadores dependen de abstracciones
-- **Bajo acoplamiento**: El sujeto no conoce las clases concretas de sus observadores
-- **Flexibilidad**: Los observadores pueden registrarse y desregistrarse din醡icamente en tiempo de ejecuci髇
-
-## 緾u醤do usar este patr髇?
-
-- **Notificaciones autom醫icas**: Cuando un cambio en un objeto requiere actualizar otros objetos, pero no sabes cu醤tos o cu醠es son de antemano.
-- **Desacoplamiento**: Cuando quieres que dos componentes interact鷈n sin que uno dependa directamente del otro, manteniendo bajo acoplamiento.
-- **Sistemas de eventos**: Cuando necesitas implementar un sistema de suscripci髇 donde m鷏tiples partes del sistema reaccionan a cambios de estado sin dependencias directas.
-
-## Challenge
-
-Para poner en pr醕tica el patr髇 Observer, consulta el [README del challenge](./challenge/) que contiene un ejercicio pr醕tico.
-
-## Recursos Adicionales
-
-- [Refactoring Guru - Observer Pattern](https://refactoring.guru/design-patterns/observer)
-- [Source Making - Observer Pattern](https://sourcemaking.com/design_patterns/observer)
+## Referencias externas
+- [Refactoring Guru - Decorator](https://refactoring.guru/es/design-patterns/decorator)
+- [Java Design Patterns - Decorator](https://java-design-patterns.com/patterns/decorator/)

@@ -1,0 +1,3 @@
+interface Report {
+    String generate();
+}

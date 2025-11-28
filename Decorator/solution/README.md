@@ -1,44 +1,53 @@
-# Solución (Observer)
 
-⚠️ **Intenta resolver el reto antes de ver la solución**
+### `solution/README.md`
+```md
+# Solución - Patrón Decorator
 
-## Cambios Principales
+## ⚠️ Advertencia
+Asegúrate de intentar resolver el reto por tu cuenta antes de revisar esta solución.
 
-1. **Interfaz `TemperatureObserver`**: Se creó una interfaz común que define el método `update()` que todos los displays deben implementar para recibir notificaciones
-2. **Interfaz `TemperatureSubject`** (opcional): Define el contrato para el sujeto observable con métodos `registerObserver()`, `removeObserver()` y `notifyObservers()`, promoviendo el uso de abstracciones
-3. **`WeatherStation` refactorizado**: Ahora mantiene una lista de observadores en lugar de referencias directas a displays específicos. Implementa métodos para registro/desregistro dinámico y notifica automáticamente a todos los observadores cuando cambia la temperatura
-4. **Displays refactorizados**: Todas las clases de display (`PhoneDisplay`, `WebDisplay`, `TvDisplay`) ahora implementan la interfaz `TemperatureObserver`, permitiendo que sean tratados de manera uniforme
-5. **Registro dinámico**: Los displays ahora se registran a sí mismos en la estación meteorológica, invirtiendo el control y eliminando el acoplamiento directo. Se pueden agregar o remover observadores en tiempo de ejecución
+## Cambios principales
+- Se creó una clase `ReportDecorator` que implementa `Report`.
+- Se eliminaron duplicaciones usando **delegación**.
+- Se añadieron decoradores `CompressionDecorator` y `EncryptionDecorator`.
 
-## Salida Esperada
+## Código resultante
+```java
+interface Report {
+    String generate();
+}
 
-```
-=== Primera actualización ===
-Phone display: Temperature is 25.0°C
-Web display: Temperature is 25.0°C
-TV display: Temperature is 25.0°C
+class SimpleReport implements Report {
+    public String generate() {
+        return "Reporte generado";
+    }
+}
 
-=== Segunda actualización ===
-Phone display: Temperature is 30.0°C
-Web display: Temperature is 30.0°C
-TV display: Temperature is 30.0°C
+abstract class ReportDecorator implements Report {
+    protected Report wrappee;
+    public ReportDecorator(Report r) { this.wrappee = r; }
+}
 
-=== Removiendo Web Display ===
+class CompressionDecorator extends ReportDecorator {
+    public CompressionDecorator(Report r) { super(r); }
+    public String generate() { return "Comprimido -> " + wrappee.generate(); }
+}
 
-=== Tercera actualización (sin Web Display) ===
-Phone display: Temperature is 22.0°C
-TV display: Temperature is 22.0°C
+class EncryptionDecorator extends ReportDecorator {
+    public EncryptionDecorator(Report r) { super(r); }
+    public String generate() { return "Cifrado -> " + wrappee.generate(); }
+}
 
-=== Agregando un nuevo Display ===
+public class Main {
+    public static void main(String[] args) {
+        Report report = new EncryptionDecorator(new CompressionDecorator(new SimpleReport()));
+        System.out.println(report.generate());
+    }
+}
 
-=== Cuarta actualización (con Tablet Display) ===
-Phone display: Temperature is 28.5°C
-TV display: Temperature is 28.5°C
-Tablet display: Temperature is 28.5°C
-```
+Salida esperada:
+Cifrado -> Comprimido -> Reporte generado
 
-Con la solución aplicada, agregar un nuevo display (como `TabletDisplay`) solo requiere:
-1. Crear una clase que implemente la interfaz `TemperatureObserver`
-2. Registrarla en la `WeatherStation` usando `registerObserver()`
-
-No es necesario modificar `WeatherStation`, cumpliendo así el principio abierto/cerrado. Además, los observadores pueden registrarse y desregistrarse dinámicamente en tiempo de ejecución, proporcionando gran flexibilidad.
+###Como extender:
+Agrega un DigitalSignatureDecorator.
+Crea una cadena dinámica de decoradores desde configuración externa.

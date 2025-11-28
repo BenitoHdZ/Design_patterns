@@ -1,44 +1,53 @@
-# Solución (Observer)
 
-⚠️ **Intenta resolver el reto antes de ver la solución**
+### `solution/README.md`
+```md
+# Solución - Composite
 
-## Cambios Principales
+## Cambios principales
+- Se creó una interfaz `Component`.
+- `FileLeaf` y `FolderComposite` implementan esa interfaz.
+- `FolderComposite` maneja una lista de `Component`.
 
-1. **Interfaz `TemperatureObserver`**: Se creó una interfaz común que define el método `update()` que todos los displays deben implementar para recibir notificaciones
-2. **Interfaz `TemperatureSubject`** (opcional): Define el contrato para el sujeto observable con métodos `registerObserver()`, `removeObserver()` y `notifyObservers()`, promoviendo el uso de abstracciones
-3. **`WeatherStation` refactorizado**: Ahora mantiene una lista de observadores en lugar de referencias directas a displays específicos. Implementa métodos para registro/desregistro dinámico y notifica automáticamente a todos los observadores cuando cambia la temperatura
-4. **Displays refactorizados**: Todas las clases de display (`PhoneDisplay`, `WebDisplay`, `TvDisplay`) ahora implementan la interfaz `TemperatureObserver`, permitiendo que sean tratados de manera uniforme
-5. **Registro dinámico**: Los displays ahora se registran a sí mismos en la estación meteorológica, invirtiendo el control y eliminando el acoplamiento directo. Se pueden agregar o remover observadores en tiempo de ejecución
+## Código
+```java
+interface Component {
+    void show();
+}
 
-## Salida Esperada
+class FileLeaf implements Component {
+    String name;
+    FileLeaf(String n){ name = n; }
+    public void show(){ System.out.println("Archivo: " + name); }
+}
 
-```
-=== Primera actualización ===
-Phone display: Temperature is 25.0°C
-Web display: Temperature is 25.0°C
-TV display: Temperature is 25.0°C
+class FolderComposite implements Component {
+    String name;
+    List<Component> children = new ArrayList<>();
+    FolderComposite(String n){ name = n; }
+    void add(Component c){ children.add(c); }
+    public void show(){
+        System.out.println("Carpeta: " + name);
+        for(Component c : children) c.show();
+    }
+}
 
-=== Segunda actualización ===
-Phone display: Temperature is 30.0°C
-Web display: Temperature is 30.0°C
-TV display: Temperature is 30.0°C
+public class Main {
+    public static void main(String[] args){
+        FolderComposite root = new FolderComposite("root");
+        FolderComposite docs = new FolderComposite("docs");
+        docs.add(new FileLeaf("readme.txt"));
+        root.add(docs);
+        root.add(new FileLeaf("main.java"));
+        root.show();
+    }
+}
 
-=== Removiendo Web Display ===
+Salida esperada:
+Carpeta: root
+Carpeta: docs
+Archivo: readme.txt
+Archivo: main.java
 
-=== Tercera actualización (sin Web Display) ===
-Phone display: Temperature is 22.0°C
-TV display: Temperature is 22.0°C
-
-=== Agregando un nuevo Display ===
-
-=== Cuarta actualización (con Tablet Display) ===
-Phone display: Temperature is 28.5°C
-TV display: Temperature is 28.5°C
-Tablet display: Temperature is 28.5°C
-```
-
-Con la solución aplicada, agregar un nuevo display (como `TabletDisplay`) solo requiere:
-1. Crear una clase que implemente la interfaz `TemperatureObserver`
-2. Registrarla en la `WeatherStation` usando `registerObserver()`
-
-No es necesario modificar `WeatherStation`, cumpliendo así el principio abierto/cerrado. Además, los observadores pueden registrarse y desregistrarse dinámicamente en tiempo de ejecución, proporcionando gran flexibilidad.
+Extensión:
+Agrega un método getSize() común.
+Implementa búsqueda recursiva por nombre.
