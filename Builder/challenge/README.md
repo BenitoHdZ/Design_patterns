@@ -17,74 +17,102 @@ Tu solución debe permitir crear múltiples configuraciones de `Report` (simple,
 
 **Archivo: `challenge/Report.java`**
 ```java
-package builder.challenge;
+package challenge;
 
 public class Report {
-    private String header;
-    private String table;
-    private String chart;
+    private String title;
+    private String content;
     private String footer;
+    private String author;
+    private String date;
+    private int pages;
+    private boolean watermark;
+    private String format;
 
-    // Constructor telescópico
-    public Report(String header) {
-        this.header = header;
+    public Report(String title, String content, String footer, String author, String date, int pages, boolean watermark, String format) {
+        this.title = title;
+        this.content = content;
+        this.footer = footer;
+        this.author = author;
+        this.date = date;
+        this.pages = pages;
+        this.watermark = watermark;
+        this.format = format;
     }
 
-    public Report(String header, String table) {
-        this.header = header;
-        this.table = table;
+    public String getTitle() {
+        return title;
     }
 
-    public Report(String header, String table, String chart) {
-        this.header = header;
-        this.table = table;
-        this.chart = chart;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Report(String header, String table, String chart, String footer) {
-        this.header = header;
-        this.table = table;
-        this.chart = chart;
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getFooter() {
+        return footer;
+    }
+
+    public void setFooter(String footer) {
         this.footer = footer;
     }
 
-    @Override
-    public String toString() {
-        return "Report{" +
-                "header='" + header + '\'' +
-                ", table='" + table + '\'' +
-                ", chart='" + chart + '\'' +
-                ", footer='" + footer + '\'' +
-                '}';
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public boolean isWatermark() {
+        return watermark;
+    }
+
+    public void setWatermark(boolean watermark) {
+        this.watermark = watermark;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }
 
-**Archivo: `challenge/Main.java`**
-```java
+TIPS
 
-package builder.challenge;
+¿Qué tan fácil es entender qué representa cada parámetro cuando llamas al constructor?
 
-public class Main {
-    public static void main(String[] args) {
+¿Qué ocurre si cambias el orden de los parámetros al llamar al constructor?
 
-        System.out.println("=== Creando un reporte con el constructor telescópico ===");
+¿Cuántos parámetros son realmente obligatorios y cuántos son opcionales?
 
-        Report report = new Report(
-                "Resumen del Q4",
-                "Tabla de ventas por región",
-                "Gráfico de barras",
-                "Confidencial"
-        );
+¿Es cómodo agregar un nuevo atributo al reporte con la estructura actual?
 
-        System.out.println(report);
-
-        System.out.println("\n=== Problema ===");
-        System.out.println("¿Qué pasa si quieres agregar una nueva sección como 'metadatos'?");
-        System.out.println("¿Tendrías que crear otro constructor?");
-        System.out.println("¿Y si quisieras un reporte simple con solo encabezado y pie?");
-        System.out.println("¿O un reporte detallado con varias secciones opcionales?");
-
-        System.out.println("\n=== Objetivo del reto ===");
-        System.out.println("Refactoriza este código usando el patrón Builder.");
-    }
-}
+¿Qué tan probable es cometer errores al usar este constructor largo?

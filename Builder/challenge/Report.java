@@ -1,41 +1,87 @@
-package builder.challenge;
+package challenge;
 
 public class Report {
-    private String header;
-    private String table;
-    private String chart;
+    private String title;
+    private String content;
     private String footer;
+    private String author;
+    private String date;
+    private int pages;
+    private boolean watermark;
+    private String format;
 
-    // Constructor telescópico
-    public Report(String header) {
-        this.header = header;
+    public Report(String title, String content, String footer, String author, String date, int pages, boolean watermark, String format) {
+        this.title = title;
+        this.content = content;
+        this.footer = footer;
+        this.author = author;
+        this.date = date;
+        this.pages = pages;
+        this.watermark = watermark;
+        this.format = format;
     }
 
-    public Report(String header, String table) {
-        this.header = header;
-        this.table = table;
+    public String getTitle() {
+        return title;
     }
 
-    public Report(String header, String table, String chart) {
-        this.header = header;
-        this.table = table;
-        this.chart = chart;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Report(String header, String table, String chart, String footer) {
-        this.header = header;
-        this.table = table;
-        this.chart = chart;
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getFooter() {
+        return footer;
+    }
+
+    public void setFooter(String footer) {
         this.footer = footer;
     }
 
-    @Override
-    public String toString() {
-        return "Report{" +
-                "header='" + header + '\'' +
-                ", table='" + table + '\'' +
-                ", chart='" + chart + '\'' +
-                ", footer='" + footer + '\'' +
-                '}';
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public boolean isWatermark() {
+        return watermark;
+    }
+
+    public void setWatermark(boolean watermark) {
+        this.watermark = watermark;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }

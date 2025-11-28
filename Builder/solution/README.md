@@ -8,19 +8,14 @@
    Se eliminan los constructores telescópicos y se impide la creación directa del objeto.  
    El objeto solo puede construirse mediante el Builder, evitando combinaciones inconsistentes.
 
-2. **Clase interna `Report.Builder`**  
-   Define todos los pasos opcionales (`addHeader()`, `addTable()`, `addChart()`, `addFooter()`) y un método final `build()`.  
-   Cada método devuelve el Builder para permitir una API fluida.
-
-3. **Separación entre construcción y representación**  
+2. **Separación entre construcción y representación**  
    La clase `Report` ya no conoce la lógica de ensamblaje, solo recibe valores ya preparados.  
    Esto reduce el acoplamiento y mejora la claridad del código.
 
-4. **Extensibilidad sin modificar `Report`**  
-   Nuevas secciones (por ejemplo, `addMetadata()`) se agregan únicamente al Builder, cumpliendo el principio abierto/cerrado.  
+3. **Extensibilidad sin modificar `Report`**  
    `Report` no necesita nuevos constructores ni cambios internos.
 
-5. **Validación centralizada en `build()`**  
+4. **Validación centralizada en `build()`**  
    El Builder puede imponer reglas (como requerir un encabezado obligatorio) antes de construir el objeto final.
 
 ---
@@ -30,98 +25,120 @@
 ### Archivo: `Report.java`
 
 ```java
-package builder.challenge;
+package builder.solution;
 
 public class Report {
+    private final String title;
+    private final String content;
+    private final String footer;
+    private final String author;
+    private final String date;
+    private final int pages;
+    private final boolean watermark;
+    private final String format;
 
-    private String header;
-    private String table;
-    private String chart;
-    private String footer;
-
-    private Report() {} // Constructor privado
+    private Report(Builder builder) {
+        this.title = builder.title;
+        this.content = builder.content;
+        this.footer = builder.footer;
+        this.author = builder.author;
+        this.date = builder.date;
+        this.pages = builder.pages;
+        this.watermark = builder.watermark;
+        this.format = builder.format;
+    }
 
     public static class Builder {
-        private String header;
-        private String table;
-        private String chart;
+        private String title;
+        private String content;
         private String footer;
+        private String author;
+        private String date;
+        private int pages;
+        private boolean watermark;
+        private String format;
 
-        public Builder addHeader(String header) {
-            this.header = header;
+        public Builder setTitle(String title) {
+            this.title = title;
             return this;
         }
 
-        public Builder addTable(String table) {
-            this.table = table;
+        public Builder setContent(String content) {
+            this.content = content;
             return this;
         }
 
-        public Builder addChart(String chart) {
-            this.chart = chart;
-            return this;
-        }
-
-        public Builder addFooter(String footer) {
+        public Builder setFooter(String footer) {
             this.footer = footer;
             return this;
         }
 
-        public Report build() {
-            Report r = new Report();
-
-            // Ejemplo de validación
-            if (this.header == null) {
-                throw new IllegalStateException("El reporte debe contener un encabezado.");
-            }
-
-            r.header = this.header;
-            r.table = this.table;
-            r.chart = this.chart;
-            r.footer = this.footer;
-
-            return r;
+        public Builder setAuthor(String author) {
+            this.author = author;
+            return this;
         }
-    }
 
-    @Override
-    public String toString() {
-        return "Report{" +
-                "header='" + header + '\'' +
-                ", table='" + table + '\'' +
-                ", chart='" + chart + '\'' +
-                ", footer='" + footer + '\'' +
-                '}';
+        public Builder setDate(String date) {
+            this.date = date;
+            return this;
+        }
+
+        public Builder setPages(int pages) {
+            this.pages = pages;
+            return this;
+        }
+
+        public Builder enableWatermark(boolean watermark) {
+            this.watermark = watermark;
+            return this;
+        }
+
+        public Builder setFormat(String format) {
+            this.format = format;
+            return this;
+        }
+
+        public Report build() {
+            return new Report(this);
+        }
     }
 }
 
 ### Archivo Main.java
 
-package builder.challenge;
+package builder.solution;
 
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("=== Creando reporte mediante Builder ===");
+        System.out.println("=== Solution: Construction using Builder Pattern ===");
 
         Report report = new Report.Builder()
-                .addHeader("Resumen del Q4")
-                .addTable("Tabla de ventas por región")
-                .addChart("Gráfico comparativo")
-                .addFooter("Confidencial")
-                .build();
+            .setTitle("Sales Report")
+            .setContent("Content of the report...")
+            .setFooter("Footer: Confidential")
+            .setAuthor("John Doe")
+            .setDate("2025-01-15")
+            .setPages(45)
+            .enableWatermark(true)
+            .setFormat("PDF")
+            .build();
 
-        System.out.println(report);
+        System.out.println("Report successfully created using Builder!");
+        System.out.println("Title: " + report.getTitle());
+        System.out.println("Pages: " + report.getPages());
+        System.out.println("Format: " + report.getFormat());
 
-        System.out.println("\n=== Creando un reporte simple ===");
+        System.out.println("\n=== ADVANTAGES ===");
+        System.out.println("1. Readable and fluent construction.");
+        System.out.println("2. Optional fields handled naturally.");
+        System.out.println("3. Easy to add new features (OCP).");
+        System.out.println("4. Report is immutable.");
+        System.out.println("5. Builder has SRP (only builds).");
 
-        Report simple = new Report.Builder()
-                .addHeader("Reporte Básico")
-                .build();
-
-        System.out.println(simple);
-
-        System.out.println("\n=== Añadiendo una nueva sección opcional (Metadata) ===");
-        System.out.println("Solo necesitarías agregar addMetadata() al Builder sin tocar Report.");
+        System.out.println("\n=== Extending without modifying ===");
+        System.out.println("To add digital signatures, just add:");
+        System.out.println("  builder.setDigitalSignature(...)");
+        System.out.println("No need to modify the Report constructor!");
     }
 }

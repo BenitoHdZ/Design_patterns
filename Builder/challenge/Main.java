@@ -1,26 +1,31 @@
-package builder.challenge;
+package challenge;
 
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("=== Creando un reporte con el constructor telescópico ===");
+        System.out.println("=== Challenge: Construction with a telescopic constructor ===");
 
         Report report = new Report(
-                "Resumen del Q4",
-                "Tabla de ventas por región",
-                "Gráfico de barras",
-                "Confidencial"
+            "Sales Report",
+            "Content of the report...",
+            "Footer: Confidential",
+            "John Doe",
+            "2025-01-15",
+            45,
+            true,
+            "PDF"
         );
 
-        System.out.println(report);
+        System.out.println("Report created using a long constructor!");
+        System.out.println("Title: " + report.getTitle());
+        System.out.println("Pages: " + report.getPages());
+        System.out.println("Format: " + report.getFormat());
 
-        System.out.println("\n=== Problema ===");
-        System.out.println("¿Qué pasa si quieres agregar una nueva sección como 'metadatos'?");
-        System.out.println("¿Tendrías que crear otro constructor?");
-        System.out.println("¿Y si quisieras un reporte simple con solo encabezado y pie?");
-        System.out.println("¿O un reporte detallado con varias secciones opcionales?");
-
-        System.out.println("\n=== Objetivo del reto ===");
-        System.out.println("Refactoriza este código usando el patrón Builder.");
+        System.out.println("\n=== PROBLEM ===");
+        System.out.println("1. Hard to read.");
+        System.out.println("2. Easy to confuse parameters.");
+        System.out.println("3. No flexibility for optional fields.");
+        System.out.println("4. Violates SRP and OCP.");
+        System.out.println("5. Adding new attributes requires modifying constructor.");
     }
 }
